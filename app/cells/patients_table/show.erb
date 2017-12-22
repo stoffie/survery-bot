@@ -1,0 +1,21 @@
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Surname</th>
+			<th>Phoneno</th>
+			<th>Telegram</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% model.each do |patient| %>
+		<tr>
+			<td><%= patient.name %></td>
+			<td><%= patient.surname %></td>
+			<td><%= patient.phoneno %></td>
+			<td><%= patient.telegram_enabled ? "Yes" : "No" %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

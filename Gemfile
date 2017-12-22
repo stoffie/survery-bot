@@ -6,8 +6,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'hash_dot'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
+
+gem "cells"
+gem "cells-rails"
+gem "cells-erb"
 
 gem 'rails-erd', group: :development
 

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 	devise_for :users
 	# Devise really wants you to have a root
-	root to: "welcomes#index"
+	root to: "questionnaires#index"
 
 	resources :answers
 	resources :invitations

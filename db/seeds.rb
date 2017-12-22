@@ -8,6 +8,10 @@
 
 User.create(email: 'user@example.com', password: '12345678')
 
+10.times do |i|
+	Patient.create(name: 'Mario', surname: 'Rossi', phoneno: "+39123456#{i}")
+end
+
 5.times do
 	questionnaire = Questionnaire.create(title: 'Indagine sulla soddisfazione professionale')
 	5.times do
