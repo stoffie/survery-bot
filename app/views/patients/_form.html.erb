@@ -1,0 +1,37 @@
+<%= form_with(model: patient, local: true) do |form| %>
+  <% if patient.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
+
+      <ul>
+      <% patient.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :patient_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :surname %>
+    <%= form.text_field :surname, id: :patient_surname %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phoneno %>
+    <%= form.text_field :phoneno, id: :patient_phoneno %>
+  </div>
+
+  <div class="field">
+    <%= form.label :telegram_enabled %>
+    <%= form.check_box :telegram_enabled, id: :patient_telegram_enabled %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

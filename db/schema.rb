@@ -10,7 +10,66 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222135009) do
+ActiveRecord::Schema.define(version: 20171222144329) do
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "patient_id"
+    t.integer "question_id"
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_answers_on_patient_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.string "title"
+    t.integer "questionnaire_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_id"], name: "index_campaigns_on_questionnaire_id"
+  end
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer "patient_id"
+    t.integer "campaign_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_invitations_on_campaign_id"
+    t.index ["patient_id"], name: "index_invitations_on_patient_id"
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string "text"
+    t.integer "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "phoneno"
+    t.boolean "telegram_enabled"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questionnaires", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "category"
+    t.string "text"
+    t.integer "questionnaire_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_id"], name: "index_questions_on_questionnaire_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
