@@ -25,10 +25,7 @@ end
 
 		question = questionnaire.questions.create(text: ' Quanto sono ripetitivi i compiti del tuo lavoro?')
 		question.options.create(text: 'Sempre')
-		question.options.create(text: 'Quasi sempre')
-		question.options.create(text: 'Molto spesso')
 		question.options.create(text: 'Spesso')
-		question.options.create(text: 'Quasi mai')
 		question.options.create(text: 'Mai')
 	end
 end
