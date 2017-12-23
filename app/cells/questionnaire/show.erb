@@ -1,0 +1,18 @@
+<% model.questions.each do |question| %>
+	<div style="padding-bottom: 32px">
+		<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<%= question.text %>
+				</li>
+			</ul>
+		</div>
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<% question.options.each do |option| %>
+				<button type="button" class="btn btn-primary">
+					<%= option.text %>
+				</button>
+			<% end %>
+		</div>
+	</div>
+<% end %>

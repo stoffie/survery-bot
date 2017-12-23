@@ -1,9 +1,16 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @questionnaire.title %>
-</p>
-
-<%= link_to 'Edit', edit_questionnaire_path(@questionnaire) %> |
-<%= link_to 'Back', questionnaires_path %>
+<%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
+	<% capture do %>
+	<p id="notice"><%= notice %></p>
+		<div style="padding-bottom: 25px;">
+			<nav aria-label="breadcrumb" role="navigation">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active" aria-current="page">
+						<%= link_to "Questionari", questionnaires_path %>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page"><%= @questionnaire.title %></li>
+				</ol>
+			</nav>
+		</div>
+		<%= cell(:questionnaire, @questionnaire).(:show) %>
+	<% end %>
+<% end %>

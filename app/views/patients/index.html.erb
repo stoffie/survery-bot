@@ -1,7 +1,13 @@
 <%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
 	<% capture do %>
 		<p id="notice"><%= notice %></p>
-		<h1>Patients</h1>
+		<div style="padding-bottom: 25px;">
+			<nav aria-label="breadcrumb" role="navigation">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active" aria-current="page">Pazienti</li>
+				</ol>
+			</nav>
+		</div>
 		<%= cell(:patients_table, @patients).(:show) %>
 	<% end %>
 <% end %>

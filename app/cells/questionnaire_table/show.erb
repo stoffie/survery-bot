@@ -1,24 +1,21 @@
-<% model.each do |questionnaire| %>
-	<h2 style="padding-bottom: 16px">
-		→ "<%= questionnaire.title %>"
-	</h2>
-	<% questionnaire.questions.each do |question| %>
-		<div style="padding-bottom: 32px">
-			<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<%= question.text %>
-					</li>
-				</ul>
-			</div>
-			<div class="btn-group" role="group" aria-label="Basic example">
-				<% question.options.each do |option| %>
-					<button type="button" class="btn btn-primary">
-						<%= option.text %>
-					</button>
-				<% end %>
-			</div>
-		</div>
-	<% end %>
-	<hr>
-<% end %>
+<table class="table">
+	<thead class="thead-light">
+		<tr>
+			<th>Titolo</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% model.each do |questionnaire| %>
+		<tr>
+			<td>
+				<%= questionnaire.title %>
+			</td>
+			<td>
+				<%= link_to "mostra", questionnaire_path(questionnaire), class: "btn btn-info" %>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

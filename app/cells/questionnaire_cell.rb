@@ -3,7 +3,7 @@ class QuestionnaireCell < Cell::ViewModel
 	property :email
 	property :title
 
-	def navigation(&block)
+	def show(&block)
 		render(&block)
 	end
 end

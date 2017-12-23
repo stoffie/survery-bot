@@ -1,9 +1,9 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th>Name</th>
-			<th>Surname</th>
-			<th>Phoneno</th>
+			<th>Nome</th>
+			<th>Cognome</th>
+			<th>Numero Cellulare</th>
 			<th>Telegram</th>
 		</tr>
 	</thead>
@@ -14,7 +14,7 @@
 			<td><%= patient.name %></td>
 			<td><%= patient.surname %></td>
 			<td><%= patient.phoneno %></td>
-			<td><%= patient.telegram_enabled ? "Yes" : "No" %></td>
+			<td><%= patient.telegram_enabled ? "Si" : "No" %></td>
 		</tr>
 		<% end %>
 	</tbody>
