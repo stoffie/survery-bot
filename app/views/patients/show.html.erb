@@ -1,24 +1,49 @@
-<p id="notice"><%= notice %></p>
+<%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
+	<% capture do %>
+		<p id="notice"><%= notice %></p>
+		<div style="padding-bottom: 25px;">
+			<nav aria-label="breadcrumb" role="navigation">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active" aria-current="page">
+						<%= link_to "Pazienti", patients_path %>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page"><%= @patient.name + " " + @patient.surname %></li>
+				</ol>
+			</nav>
+		</div>
+		<div style="max-width: 750px">
+		<% if @patient.dialogs.empty? %>
+			<div class="alert alert-warning" role="alert">
+				Questo utente non ha ancora iniziato a dialogare con il bot
+			</div>
+		<% else %>
+			<% @patient.dialogs.each { |message| %>
+				<% if message.patient_reply %>
+					<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px">
+						<p>
+							<%= @patient.name + " " + @patient.surname %><%= message.created_at %>
+						</p>
+						<ul class="list-group">
+							<li class="list-group-item">
+								<%= message.patient_reply %>
+							</li>
+						</ul>
+					</div>
+				<% else %>
+					<div style="text-align: right;">
+						<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px; display: inline-block;">
+							<p>Survery Bot <%= message.created_at %></p>
+							<ul class="list-group">
+								<li class="list-group-item">
+									<%= message.user_message %>
+								</li>
+							</ul>
+						</div>
+					</div>
+				<% end %>
+			<% } %>
+		<% end %>
+		</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @patient.name %>
-</p>
-
-<p>
-  <strong>Surname:</strong>
-  <%= @patient.surname %>
-</p>
-
-<p>
-  <strong>Phoneno:</strong>
-  <%= @patient.phoneno %>
-</p>
-
-<p>
-  <strong>Telegram enabled:</strong>
-  <%= @patient.telegram_enabled %>
-</p>
-
-<%= link_to 'Edit', edit_patient_path(@patient) %> |
-<%= link_to 'Back', patients_path %>
+	<% end %>
+<% end %>

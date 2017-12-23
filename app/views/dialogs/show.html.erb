@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Patient:</strong>
+  <%= @dialog.patient %>
+</p>
+
+<p>
+  <strong>User message:</strong>
+  <%= @dialog.user_message %>
+</p>
+
+<p>
+  <strong>Patient reply:</strong>
+  <%= @dialog.patient_reply %>
+</p>
+
+<%= link_to 'Edit', edit_dialog_path(@dialog) %> |
+<%= link_to 'Back', dialogs_path %>

@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
-	devise_for :users
 	# Devise really wants you to have a root
-	root to: "questionnaires#index"
-
-	resources :answers
-	resources :invitations
+	devise_for :users
+	root to: "patients#index"
 	resources :patients
-	resources :campaigns
-	resources :options
-	resources :questions
 	resources :questionnaires
+	resources :campaigns
 
-	resources :welcomes
+	#resources :answers
+	#resources :invitations
+	#resources :options
+	#resources :questions
+	#resources :dialogs
+	#resources :welcomes
 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

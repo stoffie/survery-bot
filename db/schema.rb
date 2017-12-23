@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222144329) do
+ActiveRecord::Schema.define(version: 20171223150442) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "patient_id"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 20171222144329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["questionnaire_id"], name: "index_campaigns_on_questionnaire_id"
+  end
+
+  create_table "dialogs", force: :cascade do |t|
+    t.integer "patient_id"
+    t.string "user_message"
+    t.string "patient_reply"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_dialogs_on_patient_id"
   end
 
   create_table "invitations", force: :cascade do |t|

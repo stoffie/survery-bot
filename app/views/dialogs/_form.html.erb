@@ -1,0 +1,32 @@
+<%= form_with(model: dialog, local: true) do |form| %>
+  <% if dialog.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(dialog.errors.count, "error") %> prohibited this dialog from being saved:</h2>
+
+      <ul>
+      <% dialog.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :patient_id %>
+    <%= form.text_field :patient_id, id: :dialog_patient_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_message %>
+    <%= form.text_field :user_message, id: :dialog_user_message %>
+  </div>
+
+  <div class="field">
+    <%= form.label :patient_reply %>
+    <%= form.text_field :patient_reply, id: :dialog_patient_reply %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

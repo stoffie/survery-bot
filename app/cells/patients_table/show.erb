@@ -4,7 +4,8 @@
 			<th>Nome</th>
 			<th>Cognome</th>
 			<th>Numero Cellulare</th>
-			<th>Telegram</th>
+			<th>Conversazione</th>
+			<th></th>
 		</tr>
 	</thead>
 
@@ -14,7 +15,8 @@
 			<td><%= patient.name %></td>
 			<td><%= patient.surname %></td>
 			<td><%= patient.phoneno %></td>
-			<td><%= patient.telegram_enabled ? "Si" : "No" %></td>
+			<td><%= patient.dialogs.empty? ? "No" : "Si" %></td>
+			<td><%= link_to "Chat", patient_path(patient), class: "badge badge-primary" %></td>
 		</tr>
 		<% end %>
 	</tbody>
