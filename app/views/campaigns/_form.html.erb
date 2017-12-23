@@ -12,18 +12,18 @@
 	<% end %>
 
 	<div class="form-group">
+		<label>Tipologia indagine</label>
+		<select class="form-control" id="exampleFormControlSelect1" disabled>
+			<option>Indagine globale con singolo questionario</option>
+		</select>
+	</div>
+
+	<div class="form-group">
 		<label>Questionario</label>
 		<%= form.select(:questionnaire_id, Questionnaire.all.collect {|a| [a.title, a.id]}, {}, class: "form-control") %>
 	</div>
 
-	<div class="form-group">
-		<label>Tipologia campagna</label>
-		<select class="form-control" id="exampleFormControlSelect1" disabled>
-			<option>Campagna globale (Include tutti gli utenti)</option>
-		</select>
-	</div>
-
 	<div class="actions">
-		<%= form.submit "Crea campagna", class: "btn btn-success" %>
+		<%= form.submit "Crea indagine", class: "btn btn-success" %>
 	</div>
 <% end %>

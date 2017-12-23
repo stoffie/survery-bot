@@ -4,16 +4,16 @@
 		<div style="padding-bottom: 25px;">
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item active" aria-current="page">Campagne</li>
+					<li class="breadcrumb-item active" aria-current="page">Indagini</li>
 				</ol>
 			</nav>
 		</div>
 		<div style="padding-bottom: 25px;">
-			<%= link_to 'Nuova campagna', new_campaign_path, class: "btn btn-success" %>
+			<%= link_to 'Nuova indagine', new_campaign_path, class: "btn btn-success" %>
 		</div>
 		<% if @campaigns.empty? %>
 			<div class="alert alert-warning" role="alert">
-				Non è ancora iniziata nessuna campagna. Per crearne una nuova usa il bottone 'Nuova campagna'
+				Non è ancora iniziata nessuna indagine. Per crearne una nuova usa il bottone 'Nuova indagine'
 			</div>
 		<% else %>
 			<table class="table">
@@ -34,7 +34,7 @@
 							<%= campaign.questionnaire.title %>
 						</td>
 						<td>
-							<%= link_to "mostra", campaign_path(campaign), class: "btn btn-info" %>
+							<%= link_to "Mostra", campaign_path(campaign), class: "badge badge-primary" %>
 						</td>
 					</tr>
 					<% end %>
