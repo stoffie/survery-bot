@@ -1,5 +1,20 @@
-<h1>New Campaign</h1>
-
-<%= render 'form', campaign: @campaign %>
-
-<%= link_to 'Back', campaigns_path %>
+<%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
+	<% capture do %>
+		<p id="notice"><%= notice %></p>
+		<div style="padding-bottom: 25px;">
+			<nav aria-label="breadcrumb" role="navigation">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active" aria-current="page">
+						<%= link_to "Campagne", campaigns_path %>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">
+						Nuova
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<div style="max-width: 800px" %>
+			<%= render 'form', campaign: @campaign %>
+		</div>
+	<% end %>
+<% end %>
