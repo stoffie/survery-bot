@@ -57,6 +57,10 @@ GEM
     choice (0.2.0)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
+    crono (1.1.2)
+      activerecord (>= 4.0)
+      activesupport (>= 4.0)
+    daemons (1.2.6)
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
     declarative-option (0.1.0)
@@ -72,6 +76,9 @@ GEM
     ffi (1.9.18)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    haml (5.0.1)
+      temple (>= 0.8.0)
+      tilt
     hash_dot (2.2.0)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
@@ -88,6 +95,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
+    mustermann (1.0.0)
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
@@ -95,6 +103,8 @@ GEM
     pg (0.21.0)
     puma (3.11.0)
     rack (2.0.3)
+    rack-protection (2.0.0)
+      rack
     rack-test (0.8.2)
       rack (>= 1.0, < 3)
     rails (5.1.4)
@@ -134,6 +144,11 @@ GEM
       railties (>= 4.2.0, < 5.3)
     ruby-graphviz (1.2.3)
     ruby_dep (1.5.0)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -173,13 +188,17 @@ DEPENDENCIES
   cells
   cells-erb
   cells-rails
+  crono
+  daemons
   devise
+  haml
   hash_dot
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.18)
   puma (~> 3.7)
   rails (~> 5.1.4)
   rails-erd
+  sinatra
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3

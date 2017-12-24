@@ -11,6 +11,11 @@ gem 'hash_dot'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 
+gem 'crono'
+gem 'daemons'
+gem 'haml'
+gem 'sinatra', require: nil
+
 gem "cells"
 gem "cells-rails"
 gem "cells-erb"

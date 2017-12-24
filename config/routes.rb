@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	resources :patients
 	resources :questionnaires
 	resources :campaigns
+	mount Crono::Web, at: '/crono'
 
 	#resources :answers
 	#resources :invitations
