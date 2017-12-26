@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
 	# Devise really wants you to have a root
 	devise_for :users
+	authenticate(:user) do
+		mount Crono::Web, at: '/crono'
+	end
 	root to: "patients#index"
 	resources :patients
 	resources :questionnaires
 	resources :campaigns
-	mount Crono::Web, at: '/crono'
 
 	#resources :answers
 	#resources :invitations
