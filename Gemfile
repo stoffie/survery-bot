@@ -24,6 +24,18 @@ gem 'rails-erd', group: :development
 
 gem 'devise'
 
+gem 'sprockets'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 5.0'
+
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 2.7.2'
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+gem 'turbolinks'
+
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 gem 'sqlite3', group: :development
