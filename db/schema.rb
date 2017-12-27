@@ -10,17 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227165831) do
+ActiveRecord::Schema.define(version: 20171227174455) do
 
   create_table "answers", force: :cascade do |t|
-    t.integer "patient_id"
     t.integer "question_id"
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "invitation_id"
     t.index ["invitation_id"], name: "index_answers_on_invitation_id"
-    t.index ["patient_id"], name: "index_answers_on_patient_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
