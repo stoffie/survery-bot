@@ -1,0 +1,2 @@
+module CronoHelper
+end

@@ -31,10 +31,11 @@
 				<%= link_to "Contatti", patients_path, class: "nav-link" %>
 				<%= link_to "Questionari", questionnaires_path, class: "nav-link" %>
 				<%= link_to "Indagini", campaigns_path, class: "nav-link" %>
+				<%= link_to "Strumenti", crono_path, class: "nav-link" %>
 			</ul>
 		</nav>
 
-		<main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+		<main class="col-sm-9 ml-sm-auto col-md-10" role="main" id="main">
 			<%= yield %>
 		</main>
 	</div>

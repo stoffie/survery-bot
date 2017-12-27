@@ -59,3 +59,11 @@ question_hash.each { |key, value|
 		question.options.create(text: e)
 	}
 }
+
+campaign = Campaign.create(questionnaire: questionnaire)
+Patient.all.each do |p|
+	invite = campaign.invitations.create(patient: p)
+	questionnaire.questions.each do |q|
+		Answer.create(invitation: invite, question: q, text: q.options.first.text, patient: p)
+	end
+end

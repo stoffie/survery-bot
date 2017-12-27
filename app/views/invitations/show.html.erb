@@ -1,14 +1,36 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Patient:</strong>
-  <%= @invitation.patient %>
-</p>
-
-<p>
-  <strong>Campaign:</strong>
-  <%= @invitation.campaign %>
-</p>
-
-<%= link_to 'Edit', edit_invitation_path(@invitation) %> |
-<%= link_to 'Back', invitations_path %>
+<%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
+	<% capture do %>
+		<p id="notice"><%= notice %></p>
+		<div style="padding-bottom: 25px;">
+			<nav aria-label="breadcrumb" role="navigation">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active" aria-current="page">
+						<%= link_to "Indagini", campaigns_path %>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">
+						<%= link_to(@invitation.campaign.questionnaire.title + " del " + l(@invitation.campaign.created_at, format: :long), campaign_path(@invitation.campaign))%>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">
+						<%= @invitation.patient.name + " " + @invitation.patient.surname %>
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<% @invitation.answers.each do |answer| %>
+			<div style="padding-bottom: 32px">
+				<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px">
+					<ul class="list-group">
+						<li class="list-group-item">
+							<%= answer.question.text %>
+						</li>
+					</ul>
+				</div>
+				<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-primary">
+						<%= answer.text %>
+					</button>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+<% end %>

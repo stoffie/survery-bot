@@ -28,7 +28,7 @@
 					<% @campaigns.each do |campaign| %>
 					<tr>
 						<td>
-							<%= campaign.created_at %>
+							<%= l campaign.created_at, format: :long %>
 						</td>
 						<td>
 							<%= campaign.questionnaire.title %>
