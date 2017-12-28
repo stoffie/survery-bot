@@ -27,7 +27,7 @@ class CampaignsController < ApplicationController
 		end
 
 		if @campaign.save
-			redirect_to @campaign, notice: 'Campaign was successfully created.'
+			redirect_to @campaign, notice: 'Nuova indagine creata con successo'
 		else
 			render :new
 		end

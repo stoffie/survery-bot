@@ -1,6 +1,6 @@
 <%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
 	<% capture do %>
-	<p id="notice"><%= notice %></p>
+	<%= render "layouts/notice" %>
 		<div style="padding-bottom: 25px;">
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb">
