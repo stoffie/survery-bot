@@ -6,6 +6,11 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Act As a State Machine
+gem 'aasm', '~> 4.12', '>= 4.12.3'
+# Telegram API
+gem 'telegram-bot-ruby'
+
 gem 'hash_dot'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
