@@ -1,10 +1,11 @@
 require 'telegram/bot'
+require 'JSON'
 
 class Dialogue
-  attr_reader :user, :state, :api
+  attr_reader :patient, :api
 
-  def initialize(user)
-    @user = user
+  def initialize(patient)
+    @patient = patient
     @api = ::Telegram::Bot::Api.new(Rails.application.secrets.bot_token)
   end
 
@@ -12,15 +13,6 @@ class Dialogue
     @api.call('sendMessage', chat_id: chat_id,
               text: 'Condividi il tuo numero di telefono attraverso il bottone per continuare.',
               reply_markup: contact_request_markup)
-  end
-
-  def send_reply(reply)
-    send_chat_action 'typing'
-    @api.call('sendMessage', chat_id: @user.telegram_id, text: reply)
-  end
-
-  def send_reply_with_keyboard(reply, keyboard)
-    @api.call('sendMessage', chat_id: @user.telegram_id, text: reply, reply_markup: keyboard)
   end
 
   def send_not_allowed(chat_id)
@@ -32,13 +24,74 @@ class Dialogue
   end
 
   def error
+    send_chat_action 'typing'
     @api.call('sendMessage', chat_id: chat_id,
               text: 'Errore Server, ci scusiamo per il disagio. La preghiamo di riprovare dopo.')
   end
 
   def send_logged_in
-    @api.call('sendMessage', chat_id: chat_id,
-              text: "Ciao #{user.last_name}! Qui troverai tutti i questionari che dovrai fare.")
+    send_chat_action 'typing'
+    reply = "Ciao #{@patient.name}! Qui troverai tutti i questionari che dovrai fare."
+    save_dialogue_log 'Ha fornito il numero di telefono!',
+                      reply,
+                      {}.to_json
+    send_reply_with_keyboard reply, Dialogue.custom_keyboard(['Ho dei Questionari da fare?'])
+  end
+
+  def send_questionnaires(questionnaires)
+    # first lets save questionnaire list in bot command_data
+    list = questionnaires.map(&:title)
+    bot_command_data = {'questionnaires' => list}
+    reply1 = "I questionari che hai da fare sono: \n\t-#{list.join("\n\t-")}"
+    reply2 = 'Scegli un questionario per rispondere alle domande.'
+    save_dialogue_log 'Ho da fare dei Questionari?',
+                      reply1 + reply2,
+                      bot_command_data.to_json
+
+    # then send bot's answer to patient
+    send_reply reply1
+    send_reply_with_keyboard reply2,
+                             Dialogue.custom_keyboard(list)
+  end
+
+  def inform_wrong_questionnaire(text)
+    bot_command_data = JSON.parse(Dialog.where('patient_id = ? AND bot_command_data IS NOT NULL', @patient.id).last.bot_command_data)
+    patient_reply = text
+    reply1 = 'Sembra che tu abbia indicato il nome di un questionario non valido.'
+
+    save_dialogue_log patient_reply, reply1, nil
+    send_reply reply1
+    reply2 = "I questionari che hai da fare sono: \n\t-#{bot_command_data['questionnaires'].join("\n\t-")} \n Scegli uno dei questionari indicati per rispondere alle domande."
+    send_reply_with_keyboard reply2,
+                             Dialogue.custom_keyboard(bot_command_data['questionnaires'])
+    save_user_message reply2, nil
+  end
+
+  def ask_question(question, invitation)
+    # first lets save question data invitation on bot_command_data
+    bot_command_data = JSON.parse(Dialog.where(patient: @patient).last.bot_command_data)
+    questionnaire = question.questionnaire
+    bot_command_data['responding'] = {'question_id' => question.id,
+                                      'invitation_id' => invitation.id,
+                                      'questionnaire_id' => questionnaire.id}
+    patient_reply = questionnaire.title
+    user_message = question.text
+    save_dialogue_log patient_reply, user_message, bot_command_data
+    options = question.options.map(&:text)
+    send_reply_with_keyboard question.text, Dialogue.custom_keyboard(options)
+  end
+
+  def save_dialogue_log(patient_reply, user_message, bot_command_data)
+    Dialog.create(patient_reply: patient_reply, patient_id: @patient.id, bot_command_data: bot_command_data)
+    Dialog.create(user_message: user_message, patient_id: @patient.id, bot_command_data: bot_command_data)
+  end
+
+  def save_patient_reply(patient_reply, bot_command_data)
+    Dialog.create(patient_reply: patient_reply, patient_id: @patient.id, bot_command_data: bot_command_data)
+  end
+
+  def save_user_message(user_message, bot_command_data)
+    Dialog.create(user_message: user_message, patient_id: @patient.id, bot_command_data: bot_command_data)
   end
 
   def contact_request_markup
@@ -47,94 +100,31 @@ class Dialogue
   end
 
   def back_to_menu_with_menu
-    keyboard = GeneralActions.custom_keyboard ['Attivita', 'Feedback', 'Consigli', 'Messaggi']
-    @api.call('sendMessage', chat_id: @user.telegram_id,
-              text: 'Scegli con cosa vuoi continuare.', reply_markup: keyboard)
+    send_chat_action 'typing'
+    keyboard = Dialogue.custom_keyboard ['Ho da fare dei Questionari?']
+    @api.call('sendMessage', chat_id: @patient.telegram_id,
+              text: "Va bene! Quando avrai piu' tempo torna e chiedimi se hai da fare dei questionari.", reply_markup: keyboard)
   end
 
-  def set_plan_name(plan_name)
-    @state['plan_name'] = plan_name
-    @user.set_bot_command_data @state
+  def inform_no_questionnaires
+    send_chat_action 'typing'
+    keyboard = Dialogue.custom_keyboard ['Ho da fare dei Questionari?']
+    @api.call('sendMessage', chat_id: @patient.telegram_id,
+              text: "Non hai Questionari da completare oggi! Torna piu' tardi per ricontrollare.", reply_markup: keyboard)
   end
 
   def send_chat_action(action)
-    @api.call('sendChatAction', chat_id: @user.telegram_id, action: action)
-  end
-
-  def send_plans_details(delivered_plans)
-    send_reply "#{@user.last_name} ti sto inviando un documento che contiene tutti i dettagli relativi alle attivita' che hai da fare."
-    send_chat_action 'upload_document'
-
-    controller = UsersController.new
-    controller.instance_variable_set(:'@plans', delivered_plans)
-    doc_name = "#{@user.id}-#{user.first_name}#{user.last_name}-plans.pdf"
-
-    pdf = WickedPdf.new.pdf_from_string(
-        controller.render_to_string('users/user_plans', layout: 'layouts/pdf.html'),
-        dpi: '250',
-        # orientation: 'Landscape',
-        viewport: '1280x1024',
-        footer: { right: '[page] of [topage]'}
-    )
-    save_path = Rails.root.join('pdfs',doc_name)
-    File.open(save_path, 'wb') do |file|
-      file << pdf
-    end
-
-    send_doc "pdfs/#{doc_name}"
-    send_reply_with_keyboard 'Leggilo con attenzione!', (GeneralActions.custom_keyboard ['Attivita', 'Feedback', 'Consigli', 'Messaggi'])
-  end
-
-  def send_feedback_details(plans)
-    send_reply "#{@user.last_name} ti sto inviando un documento nel quale ci sono tutti i dettagli relativi al feedback che devi fornire fino ad oggi! Leggilo con Attenzione"
-    send_chat_action 'upload_document'
-
-    controller = UsersController.new
-    controller.instance_variable_set(:'@plans', plans)
-    doc_name = "#{@user.id}-#{user.first_name}#{user.last_name}-feedbacks.pdf"
-
-
-    pdf = WickedPdf.new.pdf_from_string(
-        controller.render_to_string('users/user_feedbacks', layout: 'layouts/pdf.html'),
-        dpi: '250',
-        # orientation: 'Landscape',
-        viewport: '1280x1024',
-        footer: { right: '[page] of [topage]'}
-    )
-    save_path = Rails.root.join('pdfs',doc_name)
-    File.open(save_path, 'wb') do |file|
-      file << pdf
-    end
-
-    send_doc "pdfs/#{doc_name}"
-  end
-
-  def plans_needing_feedback
-    Plan.joins(plannings: :notifications).where('notifications.date<=? AND notifications.done=? AND plans.delivered=? AND plans.user_id=?', Date.today, 0, 1, @user.id).uniq
-  end
-
-
-  def send_doc(file_path)
-    @api.call('sendDocument', chat_id: @user.telegram_id,
-              document: Faraday::UploadIO.new(file_path, 'pdf'))
+    @api.call('sendChatAction', chat_id: @patient.telegram_id, action: action)
   end
 
   # static methods
 
   def self.menu_buttons
-    %w[Attivita Feedback Consigli Messaggi]
-  end
-
-  def self.answers_from_question(question)
-    question.answers.map(&:text)
-  end
-
-  def self.plans_names(delivered_plans)
-    delivered_plans.map(&:name).push('Ulteriori Dettagli').push('Torna al Menu')
+    %w[Ho da fare dei questionari?]
   end
 
   def self.custom_keyboard(keyboard_values)
-    kb = GeneralActions.slice_keyboard keyboard_values
+    kb = Dialogue.slice_keyboard keyboard_values
     Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: kb, one_time_keyboard: true)
   end
 
@@ -146,4 +136,15 @@ class Dialogue
     custom_keyboard menu_buttons
   end
 
+  private
+
+  def send_reply(reply)
+    send_chat_action 'typing'
+    @api.call('sendMessage', chat_id: @patient.telegram_id, text: reply)
+  end
+
+  def send_reply_with_keyboard(reply, keyboard)
+    send_chat_action 'typing'
+    @api.call('sendMessage', chat_id: @patient.telegram_id, text: reply, reply_markup: keyboard)
+  end
 end

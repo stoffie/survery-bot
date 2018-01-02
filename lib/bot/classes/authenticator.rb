@@ -1,46 +1,44 @@
 require 'bot/classes/dialogue'
 
 class Authenticator
-  attr_reader :message, :user, :api
+  attr_reader :message, :patient
 
-  def initialize(message, user)
+  def initialize(message, patient)
     @message = message
-    @user = user
-    token = Rails.application.secrets.bot_token
-    @api = ::Telegram::Bot::Api.new(token)
+    @patient = patient
   end
 
   # process the user state
   def manage
     case text
       when /\A\/start/
-        Dialog.new(@user).welcome(chat_id)
+        Dialogue.new(@patient).welcome(chat_id)
       else
-        contact.nil? ? phone_number = '' : phone_number = contact_phone_number
+        contact.nil? ? phone_number = nil : phone_number = contact_phone_number
         if valid(phone_number)
           init_user
         else
-          Dialog.new(@user).send_not_allowed(chat_id)
+          Dialogue.new(@patient).send_not_allowed(chat_id)
         end
     end
   end
 
   def init_user
-    @user.telegram_id = chat_id
-    dialog = Dialog.new(@user)
-    if user.save
-      dialog.send_logged_in
+    @patient.telegram_id = chat_id
+    dialogue = Dialogue.new(@patient)
+    if @patient.save
+      dialogue.send_logged_in
     else
-      dialog.error
+      dialogue.error
     end
   end
 
   def valid(phone_number)
-    user = User.find_by_cellphone(phone_number)
-    if user.nil?
+    patient = Patient.find_by_phoneno(phone_number)
+    if patient.nil? || phone_number.nil?
       false
     else
-      @user = user
+      @patient = patient
       true
     end
   end

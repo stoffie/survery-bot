@@ -67,3 +67,26 @@ Patient.all.each do |p|
 		Answer.create(invitation: invite, question: q, text: q.options.first.text)
 	end
 end
+
+p = Patient.create(name: 'Marian', surname: 'Diaconu', telegram_enabled: false, phoneno: '3405124016')
+title = %Q(Sondaggio sulla sanita mentale)
+question_hash = {
+		%Q(Pensi che la tua comunità locale sia socialmente "viva"?) => ["Si","No","Qualche volta"],
+		%Q(Quanto spesso partecipi agli eventi culturali nella tua comunita'?) => ["Spesso","Qualche volta","Mai","Raramente"],
+		%Q(Sei soddisfatto della promozione culturale nella tua area?) => ["Si","No"],
+		%Q(Chi organizza la maggior parte degli eventi culturali nella tua area?) => ["La comunità", "Ditte locali o compagnie specifiche", "Persone specifiche"],
+		%Q(Vengono mai organizzati concerti nella tua area?) => ["Mai","Raramente","Qualche volta","Spesso"]
+}
+
+questionnaire = Questionnaire.create(title: title)
+
+question_hash.each { |key, value|
+	question = questionnaire.questions.create(text: key)
+	value.each { |e|
+		question.options.create(text: e)
+	}
+}
+
+campaign = Campaign.create(questionnaire: questionnaire)
+campaign.invitations.create(patient: p)
+

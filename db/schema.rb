@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227174455) do
+ActiveRecord::Schema.define(version: 20180102145443) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "question_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20171227174455) do
     t.string "patient_reply"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "bot_command_data"
     t.index ["patient_id"], name: "index_dialogs_on_patient_id"
   end
 
@@ -73,6 +74,8 @@ ActiveRecord::Schema.define(version: 20171227174455) do
     t.boolean "telegram_enabled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "telegram_id"
+    t.string "aasm_state"
   end
 
   create_table "questionnaires", force: :cascade do |t|

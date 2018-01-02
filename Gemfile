@@ -6,6 +6,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Awesome Print
+gem 'awesome_print'
 # Act As a State Machine
 gem 'aasm', '~> 4.12', '>= 4.12.3'
 # Telegram API
