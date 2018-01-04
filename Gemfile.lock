@@ -81,6 +81,10 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     equalizer (0.0.11)
     erbse (0.1.1)
       temple
@@ -240,6 +244,7 @@ DEPENDENCIES
   crono
   daemons
   devise
+  dotenv-rails
   haml
   hash_dot
   jquery-rails
