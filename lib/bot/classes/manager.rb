@@ -42,13 +42,9 @@ class Manager
   end
 
   def ask_question(q_name)
-    ap "IN ask_question(q_name='#{q_name}')"
-
     invitations = Invitation.where(patient_id: @patient.id)
     invitations.each do |invitation|
       questionnaire = Questionnaire.where(id: invitation.campaign.questionnaire_id, title: q_name).first
-      ap "QUESTIONNAIRE="
-      ap questionnaire
       unless questionnaire.nil?
         question = questionnaire.questions[invitation.answers.count]
         Dialogue.new(@patient).ask_question(question, invitation)

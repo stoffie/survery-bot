@@ -61,10 +61,8 @@ class Patient < ApplicationRecord
 
 	def is_last_question_and_is_response?(response)
 		if is_response?(response) && Manager.new(self).is_last_question?
-			ap 'TRUE'
 			true
 		else
-			ap 'FALSE'
 			false
 		end
 	end
