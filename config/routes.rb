@@ -19,9 +19,5 @@ Rails.application.routes.draw do
 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 	# Webhooks
-	unless Rails.application.secrets.bot_token
-		warn "Pleas set your BOT_TOKEN in the .env file"
-		exit
-	end
 	post "/webhooks/telegram_#{Rails.application.secrets.bot_token}" => 'webhooks#callback'
 end
