@@ -29,7 +29,7 @@ class Authenticator
     if @patient.save
       dialogue.send_logged_in
     else
-      dialogue.error
+      dialogue.error(chat_id)
     end
   end
 
