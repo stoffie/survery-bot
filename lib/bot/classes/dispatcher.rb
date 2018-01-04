@@ -1,4 +1,5 @@
 require 'bot/classes/authenticator'
+require 'bot/classes/dialogue'
 
 class Dispatcher
   attr_reader :message, :patient
@@ -10,11 +11,13 @@ class Dispatcher
 
   # process the user state
   def process
-
     if @patient.nil?
-      # user needs to log in
-      Authenticator.new(@message, @user).manage
+      # patient needs to log in
+      Authenticator.new(@message, @patient).manage
     else
+      # when user is logged in save his input text
+      Dialogue.new(@patient).save_patient_reply(text)
+
       # dispatch in function of user state and text input
       aasm_state = @patient.aasm_state
 
