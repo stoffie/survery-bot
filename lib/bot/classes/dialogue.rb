@@ -32,7 +32,7 @@ class Dialogue
   def send_logged_in
     send_chat_action 'typing'
     reply = "Benvenuto #{@patient.name}! Qui troverai tutti i questionari che dovrai fare."
-
+    save_user_message reply
     send_reply_with_keyboard reply, Dialogue.custom_keyboard([menu_button_text])
   end
 
@@ -44,7 +44,8 @@ class Dialogue
 
     reply1 = "I questionari che hai da fare sono: \n\t-#{list.join("\n\t-")}"
     reply2 = 'Scegli un questionario per rispondere alle domande.'
-
+    save_user_message reply1
+    save_user_message reply2
 
     # then send bot's answer to patient
     send_reply reply1
@@ -54,10 +55,13 @@ class Dialogue
 
   def inform_wrong_questionnaire(text)
     bot_command_data = JSON.parse(Dialog.where('patient_id = ? AND bot_command_data IS NOT NULL', @patient.id).last.bot_command_data)
+
     reply1 = "Oups! '#{text}' non e' il titolo di nessun questionario che hai da fare."
+    reply2 = "I questionari che hai da fare sono: \n\t-#{bot_command_data['questionnaires'].join("\n\t-")} \n Scegli uno dei questionari indicati per rispondere alle domande."
+    save_user_message reply1
+    save_user_message reply2
 
     send_reply reply1
-    reply2 = "I questionari che hai da fare sono: \n\t-#{bot_command_data['questionnaires'].join("\n\t-")} \n Scegli uno dei questionari indicati per rispondere alle domande."
     send_reply_with_keyboard reply2,
                              Dialogue.custom_keyboard(bot_command_data['questionnaires'].push(back_button_text))
   end
@@ -70,13 +74,16 @@ class Dialogue
                                       'invitation_id' => invitation.id,
                                       'questionnaire_id' => questionnaire.id}
     save_bot_command_data(bot_command_data)
-
     options = question.options.map(&:text)
-    send_reply_with_keyboard question.text, Dialogue.custom_keyboard(options.push(back_button_text))
+    reply = question.text
+    save_user_message reply
+    send_reply_with_keyboard reply, Dialogue.custom_keyboard(options.push(back_button_text))
   end
 
   def inform_wrong_response
-    send_reply 'Hai scelto un opzione non disponibile per questa domanda. Per favore scegli una delle opzioni disponibili.'
+    reply = 'Hai scelto un opzione non disponibile per questa domanda. Per favore scegli una delle opzioni disponibili.'
+    save_user_message reply
+    send_reply reply
   end
 
   def send_response_saved
@@ -86,7 +93,9 @@ class Dialogue
   def send_questionnaire_finished
     bot_command_data = JSON.parse(Dialog.where('patient_id = ? AND bot_command_data IS NOT NULL', @patient.id).last.bot_command_data)
     questionnaire = Questionnaire.find(bot_command_data['responding']['questionnaire_id'])
-    send_reply_with_keyboard "Hai finito il questionario '#{questionnaire.title}'. Per controllare se ci sono altri questionari chiedimi se hai altri questionari da fare.",
+    reply = "Hai finito il questionario '#{questionnaire.title}'. Per controllare se ci sono altri questionari chiedimi se hai altri questionari da fare."
+    save_user_message reply
+    send_reply_with_keyboard reply,
                              Dialogue.custom_keyboard([menu_button_text])
   end
 
@@ -95,17 +104,12 @@ class Dialogue
     Dialog.create(patient_id: @patient.id, bot_command_data: data.to_json)
   end
 
-  def save_dialogue_log(patient_reply, user_message, bot_command_data)
-    Dialog.create(patient_reply: patient_reply, patient_id: @patient.id, bot_command_data: bot_command_data)
-    Dialog.create(user_message: user_message, patient_id: @patient.id, bot_command_data: bot_command_data)
+  def save_patient_reply(patient_reply)
+    Dialog.create(patient_reply: patient_reply, patient_id: @patient.id)
   end
 
-  def save_patient_reply(patient_reply, bot_command_data)
-    Dialog.create(patient_reply: patient_reply, patient_id: @patient.id, bot_command_data: bot_command_data)
-  end
-
-  def save_user_message(user_message, bot_command_data)
-    Dialog.create(user_message: user_message, patient_id: @patient.id, bot_command_data: bot_command_data)
+  def save_user_message(user_message)
+    Dialog.create(user_message: user_message, patient_id: @patient.id)
   end
 
   def contact_request_markup
@@ -116,19 +120,25 @@ class Dialogue
   def back_to_menu_with_menu
     send_chat_action 'typing'
     keyboard = Dialogue.custom_keyboard [menu_button_text]
+    reply = "Va bene! Quando avrai piu' tempo torna e chiedimi se hai da fare dei questionari."
+    save_user_message reply
     @api.call('sendMessage', chat_id: @patient.telegram_id,
-              text: "Va bene! Quando avrai piu' tempo torna e chiedimi se hai da fare dei questionari.", reply_markup: keyboard)
+              text: reply, reply_markup: keyboard)
   end
 
   def inform_no_questionnaires
     send_chat_action 'typing'
     keyboard = Dialogue.custom_keyboard ['Ho da fare dei Questionari?']
+    reply = "Non hai Questionari da completare oggi! Torna piu' tardi per ricontrollare."
+    save_user_message reply
     @api.call('sendMessage', chat_id: @patient.telegram_id,
-              text: "Non hai Questionari da completare oggi! Torna piu' tardi per ricontrollare.", reply_markup: keyboard)
+              text: reply, reply_markup: keyboard)
   end
 
   def inform_no_action_received
-    send_reply_with_keyboard 'Per favore usa i bottoni per interagire con il sistema.',
+    reply = 'Per favore usa i bottoni per interagire con il sistema.'
+    save_user_message reply
+    send_reply_with_keyboard reply,
                              Dialogue.custom_keyboard([menu_button_text])
   end
 
