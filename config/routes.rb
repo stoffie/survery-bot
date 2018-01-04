@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-	get 'crono/index'
-
 	# Devise really wants you to have a root
 	devise_for :users
 	root to: "patients#index"
@@ -21,5 +19,9 @@ Rails.application.routes.draw do
 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 	# Webhooks
-	post '/webhooks/telegram_vbc43edbf1614a075954dvd4bfab34l1' => 'webhooks#callback'
+	unless Rails.application.secrets.bot_token
+		warn "Pleas set your BOT_TOKEN in the .env file"
+		exit
+	end
+	post "/webhooks/telegram_#{Rails.application.secrets.bot_token}" => 'webhooks#callback'
 end

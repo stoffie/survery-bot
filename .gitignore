@@ -20,9 +20,9 @@
 
 surveybot_development
 
-Gemfile.lock
 erd.pdf
 
 .swp
 .idea/
 set_webhook_request
+.env

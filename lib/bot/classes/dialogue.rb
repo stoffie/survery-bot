@@ -1,5 +1,4 @@
 require 'telegram/bot'
-require 'JSON'
 
 class Dialogue
   attr_reader :patient, :api

@@ -6,6 +6,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Shim to load environment variables from .env into ENV in development.
+gem 'dotenv-rails', groups: [:development, :test]
 # Awesome Print
 gem 'awesome_print'
 # Act As a State Machine
