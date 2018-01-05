@@ -19,5 +19,5 @@ Rails.application.routes.draw do
 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 	# Webhooks
-	post "/webhooks/telegram" => 'webhooks#callback'
+	post "/webhooks/telegram_#{Rails.application.secrets.bot_token}" => 'webhooks#callback'
 end
