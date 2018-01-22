@@ -9,7 +9,7 @@
 User.create(email: 'user@example.com', password: '12345678')
 
 5.times do |i|
-	Patient.create(name: 'Mario', surname: 'Rossi', phoneno: "+39123456#{i}")
+	Patient.create(name: 'Mario', surname: 'Rossi', phoneno: "+123456#{i}")
 end
 
 5.times do |i|

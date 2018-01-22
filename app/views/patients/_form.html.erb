@@ -1,37 +1,50 @@
-<%= form_with(model: patient, local: true) do |form| %>
-  <% if patient.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
+<%= form_for setup_patient(patient) do |form| %>
+	<% if patient.errors.any? %>
+		<div id="error_explanation">
+			<h2>Gli <b>errori</b> che non hanno permesso di salvare il paziente:</h2>
 
-      <ul>
-      <% patient.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+			<ul>
+			<% patient.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
+
+	<div class="form-group">
+		<%= form.label :name, "Nome*" %>
+		<%= form.text_field :name, id: :patient_name, class: "form-control", placeholder: "Inserisci Nome" %>
+	</div>
+
+	<div class="form-group">
+		<%= form.label :surname, "Cognome*" %>
+		<%= form.text_field :surname, id: :patient_surname, class: "form-control", placeholder: "Inserisci Cognome" %>
+	</div>
+
+	<div class="form-group">
+		<%= form.label :phoneno, "Numero Cellulare*" %>
+		<%= form.text_field :phoneno, id: :patient_phoneno, class: "form-control", placeholder: "Inserisci Numero Cellulare" %>
+	</div>
+
+
+  <div class="form-group">
+    <label>Tagga il nuovo paziente. Puoi scegliere tra tag presenti nel sistema o impostarne di nuovi.</label>
+      <% i = 0 %>
+      <%= form.fields_for :tags do |field_for| %>
+        <% i += 1 %>
+        <%= field_for.text_field :name, class: 'form-control', list: 'tags', placeholder: "Inserisci Tag #{i}" %>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :patient_name %>
   </div>
+  <small id="emailHelp" class="form-text text-muted">Tutti i campi sono obbligatori!</small>
 
-  <div class="field">
-    <%= form.label :surname %>
-    <%= form.text_field :surname, id: :patient_surname %>
-  </div>
+  <datalist id="tags">
+    <% Tag.all.each do |i| %>
+      <option value="<%= i.name %>">
+    <% end %>
+  </datalist>
 
-  <div class="field">
-    <%= form.label :phoneno %>
-    <%= form.text_field :phoneno, id: :patient_phoneno %>
-  </div>
-
-  <div class="field">
-    <%= form.label :telegram_enabled %>
-    <%= form.check_box :telegram_enabled, id: :patient_telegram_enabled %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+	<div class="actions">
+		<%= form.submit "Crea Paziente", class: "btn btn-success" %>
+	</div>
 <% end %>
+

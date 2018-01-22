@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180102145443) do
+ActiveRecord::Schema.define(version: 20180122100656) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "question_id"
@@ -78,6 +78,13 @@ ActiveRecord::Schema.define(version: 20180102145443) do
     t.string "aasm_state"
   end
 
+  create_table "patients_tags", id: false, force: :cascade do |t|
+    t.integer "patient_id"
+    t.integer "tag_id"
+    t.index ["patient_id"], name: "index_patients_tags_on_patient_id"
+    t.index ["tag_id"], name: "index_patients_tags_on_tag_id"
+  end
+
   create_table "questionnaires", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -91,6 +98,12 @@ ActiveRecord::Schema.define(version: 20180102145443) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["questionnaire_id"], name: "index_questions_on_questionnaire_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

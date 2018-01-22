@@ -8,6 +8,9 @@
 				</ol>
 			</nav>
 		</div>
+    <div style="padding-bottom: 25px;">
+      <%= link_to 'Nuovo Paziente', new_patient_path, class: "btn btn-success" %>
+    </div>
 		<%= cell(:patients_table, @patients).(:show) %>
 	<% end %>
 <% end %>
