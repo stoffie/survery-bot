@@ -44,6 +44,9 @@ gem 'uglifier', '>= 2.7.2'
 gem 'jquery-rails'
 gem 'turbolinks'
 
+# Act As Taggable
+gem 'acts-as-taggable-on', '~> 4.0'
+
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'

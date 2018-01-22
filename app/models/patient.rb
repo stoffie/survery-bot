@@ -2,12 +2,7 @@ require 'bot/classes/manager'
 require 'bot/classes/dialogue'
 
 class Patient < ApplicationRecord
-	has_many :dialogs
-	has_and_belongs_to_many :tags#, inverse_of: :patients
-
-	accepts_nested_attributes_for :tags,
-																:allow_destroy => true,
-																:reject_if     => :all_blank
+	has_many :dialogs, dependent: :destroy
 
 	validates :telegram_id, uniqueness: true, allow_nil: true
 	validates_uniqueness_of :phoneno, message: 'Numero cellulare gia\' in uso. Scegli un altro numero di cellulare.'
@@ -15,6 +10,7 @@ class Patient < ApplicationRecord
 	validates :surname, presence: { message: "Campo Cognome non puo' essere vuoto." }, length: { maximum: 50 }
 	validates :phoneno, presence: { message: "Campo Numero Cellulare non puo' essere vuoto." }, length: { maximum: 25, message: 'Numero cellulare troppo lungo. Max 25.' }
 
+	acts_as_taggable
 
 	include AASM # Act As State Machine
 

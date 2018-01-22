@@ -1,4 +1,4 @@
-<%= form_for setup_patient(patient) do |form| %>
+<%= form_for patient do |form| %>
 	<% if patient.errors.any? %>
 		<div id="error_explanation">
 			<h2>Gli <b>errori</b> che non hanno permesso di salvare il paziente:</h2>
@@ -12,39 +12,48 @@
 	<% end %>
 
 	<div class="form-group">
-		<%= form.label :name, "Nome*" %>
-		<%= form.text_field :name, id: :patient_name, class: "form-control", placeholder: "Inserisci Nome" %>
+		<%= form.label :name, 'Nome*' %>
+		<%= form.text_field :name, id: :patient_name, class: 'form-control', placeholder: 'Inserisci Nome' %>
 	</div>
 
 	<div class="form-group">
-		<%= form.label :surname, "Cognome*" %>
-		<%= form.text_field :surname, id: :patient_surname, class: "form-control", placeholder: "Inserisci Cognome" %>
+		<%= form.label :surname, 'Cognome*' %>
+		<%= form.text_field :surname, id: :patient_surname, class: 'form-control', placeholder: 'Inserisci Cognome' %>
 	</div>
 
 	<div class="form-group">
-		<%= form.label :phoneno, "Numero Cellulare*" %>
-		<%= form.text_field :phoneno, id: :patient_phoneno, class: "form-control", placeholder: "Inserisci Numero Cellulare" %>
+		<%= form.label :phoneno, 'Numero Cellulare*' %>
+		<%= form.text_field :phoneno, id: :patient_phoneno, class: 'form-control', placeholder: 'Inserisci Numero Cellulare' %>
 	</div>
 
-
-  <div class="form-group">
-    <label>Tagga il nuovo paziente. Puoi scegliere tra tag presenti nel sistema o impostarne di nuovi.</label>
-      <% i = 0 %>
-      <%= form.fields_for :tags do |field_for| %>
-        <% i += 1 %>
-        <%= field_for.text_field :name, class: 'form-control', list: 'tags', placeholder: "Inserisci Tag #{i}" %>
-      <% end %>
+  <div class="alert alert-success" role="alert">
+    Ad ogni nuovo paziente puoi associare dei TAG scegliendoli dalla lista sottostante oppure inventandotene di nuovi.
   </div>
-  <small id="emailHelp" class="form-text text-muted">Tutti i campi sono obbligatori!</small>
-
-  <datalist id="tags">
-    <% Tag.all.each do |i| %>
-      <option value="<%= i.name %>">
+  <!-- Ignore this shitty style in view! -->
+  <ul class="list-group" style="clear: both; display: block; content: '';">
+    <% if ActsAsTaggableOn::Tag.count == 0 %>
+        <li class="list-group-item list-group-item-success" >Non sono ancora presenti TAG nel sistema. Inizia ad inserirne con questo nuovo paziente.</li>
+    <% else %>
+      <% ActsAsTaggableOn::Tag.all.each do |tag| %>
+          <li class="list-group-item list-group-item-success" style="float: left; margin-right: 7px; margin-bottom: 7px;"><%= tag.name %></li>
+      <% end %>
     <% end %>
-  </datalist>
+  </ul>
+
+  <br>
+  <div class="form-group">
+    <%= form.text_field :tag_list, class: 'form-control', placeholder: 'Inserisci qui i TAG separati da virgola', value: patient.tag_list.to_s %>
+  </div>
+
+  <small id="emailHelp" class="form-text text-muted">I campi segnati con * sono obbligatori!</small>
+  <br>
 
 	<div class="actions">
-		<%= form.submit "Crea Paziente", class: "btn btn-success" %>
+    <% if patient.new_record? %>
+      <%= form.submit 'Crea Paziente', class: 'btn btn-success' %>
+    <% else %>
+      <%= form.submit 'Modifica Paziente', class: 'btn btn-success' %>
+    <% end %>
 	</div>
 <% end %>
 

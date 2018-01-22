@@ -1,6 +1,20 @@
-<h1>Editing Patient</h1>
-
-<%= render 'form', patient: @patient %>
-
-<%= link_to 'Show', @patient %> |
-<%= link_to 'Back', patients_path %>
+<%= cell(:navigation, {email: current_user.email, title: "Benvenuto utente"}.to_dot.freeze).(:navigation) do %>
+    <% capture do %>
+        <%= render "layouts/notice" %>
+        <div style="padding-bottom: 25px;">
+          <nav aria-label="breadcrumb" role="navigation">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">
+                <%= link_to "Pazienti", patients_path %>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <%= "Modificando #{@patient.name} #{@patient.surname}" %>
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <div style="max-width: 800px" %>
+          <%= render 'form', patient: @patient %>
+        </div>
+    <% end %>
+<% end %>

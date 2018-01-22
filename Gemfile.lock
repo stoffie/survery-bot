@@ -40,6 +40,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    acts-as-taggable-on (4.0.0)
+      activerecord (>= 4.0)
     arel (8.0.0)
     awesome_print (1.8.0)
     axiom-types (0.1.1)
@@ -236,6 +238,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm (~> 4.12, >= 4.12.3)
+  acts-as-taggable-on (~> 4.0)
   awesome_print
   byebug
   cells
