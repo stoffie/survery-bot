@@ -29,6 +29,8 @@ gem "cells"
 gem "cells-rails"
 gem "cells-erb"
 
+gem 'bootstrap', '~> 4.0.0'
+
 gem 'rails-erd', group: :development
 
 gem 'devise'

@@ -3,6 +3,7 @@ require 'bot/classes/dialogue'
 
 class Patient < ApplicationRecord
 	has_many :dialogs, dependent: :destroy
+	has_many :invitations, dependent: :destroy
 
 	validates :telegram_id, uniqueness: true, allow_nil: true
 	validates_uniqueness_of :phoneno, message: 'Numero cellulare gia\' in uso. Scegli un altro numero di cellulare.'
