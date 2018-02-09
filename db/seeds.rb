@@ -8,19 +8,11 @@
 
 User.create(email: 'user@example.com', password: '12345678')
 
-5.times do |i|
-	Patient.create(name: 'Mario', surname: 'Rossi', phoneno: "+123456#{i}")
-end
+nametable = ["Giuseppe", 'Giovanni', 'Andrea', 'Roberto', 'Carlo']
+surnametable = ['Giovanni', 'Andrea', 'Roberto', 'Carlo', 'Carli']
 
 5.times do |i|
-	p = Patient.create(name: 'Mario', surname: 'Rossi', phoneno: "+39123456#{i}")
-	p.dialogs.create(user_message: "Salve utente, hai bisogno di qualcosa?")
-	p.dialogs.create(patient_reply: "Si, avrei bisogno di un parere medico")
-	p.dialogs.create(user_message: "Di che tipo?")
-	p.dialogs.create(patient_reply: "Riguardo ai capelli")
-	p.dialogs.create(user_message: "Che problema hai?")
-	p.dialogs.create(patient_reply: "Le doppiepunte!!")
-	p.dialogs.create(user_message: "Ho capito")
+	Patient.create(name: nametable[i], surname: surnametable[i], phoneno: "+123456#{i}")
 end
 
 1.times do
@@ -90,3 +82,42 @@ question_hash.each { |key, value|
 campaign = Campaign.create(questionnaire: questionnaire)
 campaign.invitations.create(patient: p)
 
+title = %Q(Impatto della matalttia sulla quotidianita')
+question_hash = {
+		%Q(Svolgi le normali attivita' quotidiane?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Partecipa ad attività culturali o di socializzazione (cinema, teatro, circoli ricreativi, associazioni, incontri di famiglia ecc.)?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Ti capita di sentirsi solo?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Pensa di aver perso interesse nei confronti del lavoro, delle attività di svago o del rapporto con gli altri?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Si preoccupa per questioni di poco conto?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Durante l'ultimo anno si è sentito triste, malinconico, depresso?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Ha mai dimenticato di assumere i farmaci?) => ["Si", "No"],
+		%Q(E' indifferente agli orari in cui assume i farmaci?) => ["Si", "No"],
+		%Q(Quando ti senti meglio ti capita di interrompere la terapia?) => ["Si", "No"],
+		%Q(Quando ti senti peggio ti capita di interrompere la terapia?) => ["Si", "No"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda le verdure?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda i legumi?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda la frutta?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda i formaggi?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda gli insaccati?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda il pesce?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda l'olio di oliva?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda l'olio di semi?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda il burro?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda il caffe'?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda il vino?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda la birra?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda i superalcolici?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
+		%Q(Hai fatto almeno mezz'ora di attivita' fisica leggera?) => ["Si","No"],
+		%Q(Hai fatto almeno mezz'ora di attivita' fisica moderata?) => ["Si","No"],
+		%Q(Hai fatto almeno mezz'ora di attivita' fisica intensa?) => ["Si","No"],
+
+}
+
+questionnaire = Questionnaire.create(title: title)
+
+question_hash.each { |key, value|
+	question = questionnaire.questions.create(text: key)
+	value.each { |e|
+		question.options.create(text: e)
+	}
+}
