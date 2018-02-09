@@ -45,7 +45,7 @@ class Authenticator
 
   def contact_phone_number
     # phone number without prefix
-    @message[:message][:contact][:phone_number][2,12]
+    @message[:message][:contact][:phone_number].chars.last(10).join
   end
 
   def contact
