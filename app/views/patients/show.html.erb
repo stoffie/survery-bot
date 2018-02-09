@@ -21,7 +21,7 @@
 				<% if message.patient_reply %>
 					<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px">
 						<p>
-							<%= @patient.name + " " + @patient.surname %><%= message.created_at %>
+							<%= @patient.name + " " + @patient.surname %>:<%= l message.created_at, format: :long %>
 						</p>
 						<ul class="list-group">
 							<li class="list-group-item">
@@ -32,7 +32,7 @@
 				<% elsif message.user_message %>
 					<div style="text-align: right;">
 						<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px; display: inline-block;">
-							<p>Survery Bot <%= message.created_at %></p>
+							<p>Survery Bot: <%= l message.created_at, format: :long %></p>
 							<ul class="list-group">
 								<li class="list-group-item">
 									<%= message.user_message %>
