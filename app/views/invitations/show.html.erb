@@ -16,21 +16,23 @@
 				</ol>
 			</nav>
 		</div>
-		<% @invitation.answers.each do |answer| %>
-			<div style="padding-bottom: 32px">
-				<div style="width: -moz-fit-content; width: -webkit-fit-content; width: fit-content; padding-bottom: 8px">
-					<ul class="list-group">
-						<li class="list-group-item">
-							<%= answer.question.text %>
-						</li>
-					</ul>
-				</div>
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" class="btn btn-primary">
-						<%= answer.text %>
-					</button>
-				</div>
-			</div>
-		<% end %>
+		<table class="table">
+			<thead class="thead-light">
+				<tr>
+					<th>#</th>
+					<th>Domanda</th>
+					<th>Risposta</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @invitation.answers.each_with_index do |answer, index| %>
+				<tr>
+					<td><%= index + 1 %></td>
+					<td><%= answer.question.text %></td>
+					<td><%= answer.text %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
 	<% end %>
 <% end %>

@@ -7,9 +7,9 @@ class Patient < ApplicationRecord
 
 	validates :telegram_id, uniqueness: true, allow_nil: true
 	validates_uniqueness_of :phoneno, message: 'Numero cellulare gia\' in uso. Scegli un altro numero di cellulare.'
-	validates :name, presence: { message: "Campo Nome non puo' essere vuoto." }, length: { maximum: 50 }
-	validates :surname, presence: { message: "Campo Cognome non puo' essere vuoto." }, length: { maximum: 50 }
-	validates :phoneno, presence: { message: "Campo Numero Cellulare non puo' essere vuoto." }, length: { maximum: 25, message: 'Numero cellulare troppo lungo. Max 25.' }
+	validates :name, presence: { message: "Campo Nome non può essere vuoto." }, length: { maximum: 50 }
+	validates :surname, presence: { message: "Campo Cognome non può essere vuoto." }, length: { maximum: 50 }
+	validates :phoneno, presence: { message: "Campo Numero Cellulare non può essere vuoto." }, length: { maximum: 25, message: 'Numero cellulare troppo lungo. Max 25.' }
 
 	acts_as_taggable
 

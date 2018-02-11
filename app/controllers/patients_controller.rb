@@ -24,7 +24,7 @@ class PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
 
     if @patient.save
-      redirect_to @patient, notice: 'Patient was successfully created.'
+      redirect_to edit_patient_path(@patient), notice: 'Record creato con successo.'
     else
       render :new
     end
@@ -33,7 +33,7 @@ class PatientsController < ApplicationController
   # PATCH/PUT /patients/1
   def update
     if @patient.update(patient_params)
-      redirect_to @patient, notice: 'Patient was successfully updated.'
+      redirect_to edit_patient_path(@patient), notice: 'Record modificato con successo.'
     else
       render :edit
     end

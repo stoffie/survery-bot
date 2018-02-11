@@ -30,7 +30,7 @@ class Dialogue
 
   def send_logged_in
     send_chat_action 'typing'
-    reply = "Benvenuto #{@patient.name}! Qui troverai tutti i questionari che dovrai fare."
+    reply = "Benvenuto #{@patient.name}! Qui troverai tutti i questionari che dovrai compilare."
     save_user_message reply
     send_reply_with_keyboard reply, Dialogue.custom_keyboard([menu_button_text])
   end
@@ -41,7 +41,7 @@ class Dialogue
     bot_command_data = {'questionnaires' => list}
     save_bot_command_data(bot_command_data)
 
-    reply1 = "I questionari che hai da fare sono: \n\t-#{list.join("\n\t-")}"
+    reply1 = "I questionari che dovrai compilare sono: \n\t-#{list.join("\n\t-")}"
     reply2 = 'Scegli un questionario per rispondere alle domande.'
     save_user_message reply1
     save_user_message reply2
@@ -55,8 +55,8 @@ class Dialogue
   def inform_wrong_questionnaire(text)
     bot_command_data = JSON.parse(Dialog.where('patient_id = ? AND bot_command_data IS NOT NULL', @patient.id).last.bot_command_data)
 
-    reply1 = "Oups! '#{text}' non e' il titolo di nessun questionario che hai da fare."
-    reply2 = "I questionari che hai da fare sono: \n\t-#{bot_command_data['questionnaires'].join("\n\t-")} \n Scegli uno dei questionari indicati per rispondere alle domande."
+    reply1 = "Oups! '#{text}' non è il titolo di nessun questionario che devi compilare."
+    reply2 = "I questionari che dovrai compilare sono: \n\t-#{bot_command_data['questionnaires'].join("\n\t-")} \n Scegli uno dei questionari indicati per rispondere alle domande."
     save_user_message reply1
     save_user_message reply2
 
@@ -92,7 +92,7 @@ class Dialogue
   def send_questionnaire_finished
     bot_command_data = JSON.parse(Dialog.where('patient_id = ? AND bot_command_data IS NOT NULL', @patient.id).last.bot_command_data)
     questionnaire = Questionnaire.find(bot_command_data['responding']['questionnaire_id'])
-    reply = "Hai finito il questionario '#{questionnaire.title}'. Per controllare se ci sono altri questionari chiedimi se hai altri questionari da fare."
+    reply = "Hai finito il questionario '#{questionnaire.title}'. Per controllare se ci sono altri questionari chiedimi se hai altri questionari da compilare."
     save_user_message reply
     send_reply_with_keyboard reply,
                              Dialogue.custom_keyboard([menu_button_text])
@@ -119,7 +119,7 @@ class Dialogue
   def back_to_menu_with_menu
     send_chat_action 'typing'
     keyboard = Dialogue.custom_keyboard [menu_button_text]
-    reply = "Va bene! Quando avrai piu' tempo torna e chiedimi se hai da fare dei questionari."
+    reply = "Va bene! Quando avrai più tempo torna a chiedermi se hai da compilare dei questionari."
     save_user_message reply
     @api.call('sendMessage', chat_id: @patient.telegram_id,
               text: reply, reply_markup: keyboard)
@@ -127,8 +127,8 @@ class Dialogue
 
   def inform_no_questionnaires
     send_chat_action 'typing'
-    keyboard = Dialogue.custom_keyboard ['Ho da fare dei Questionari?']
-    reply = "Non hai Questionari da completare oggi! Torna piu' tardi per ricontrollare."
+    keyboard = Dialogue.custom_keyboard ['Devo compilare dei Questionari?']
+    reply = "Non hai questionari da compilare oggi! Torna più tardi per ricontrollare."
     save_user_message reply
     @api.call('sendMessage', chat_id: @patient.telegram_id,
               text: reply, reply_markup: keyboard)

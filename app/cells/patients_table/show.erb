@@ -19,10 +19,10 @@
 			<td><%= patient.phoneno %></td>
 			<td><%= patient.dialogs.empty? ? "No" : "Si" %></td>
 			<td><%= link_to "Modifica", edit_patient_path(patient), class: "badge badge-success" %></td>
-			<td><%= link_to "Chat", patient_path(patient), class: "badge badge-primary" %></td>
+			<td><%= link_to "ChatLog", patient_path(patient), class: "badge badge-primary" %></td>
 			<td><%= patient.telegram_id.nil? ? link_to("Elimina", patient_path(patient), method: :delete,
 																								 data: {confirm: "Sei sicuro di voler eliminare il paziente #{patient.name} #{patient.surname}?" +
-																										 " Una volta cancellato non potrai piu' ripristinarlo!"},
+																										 " Una volta cancellato non potrai più ripristinarlo!"},
 																								 class: "badge badge-danger") : "" %></td>
 		</tr>
 		<% end %>
