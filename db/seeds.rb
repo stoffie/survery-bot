@@ -82,7 +82,7 @@ question_hash.each { |key, value|
 campaign = Campaign.create(questionnaire: questionnaire)
 campaign.invitations.create(patient: p)
 
-title = %Q(Impatto della matalttia sulla quotidianita')
+title = %Q(Impatto della matalttia sulla quotidianità)
 question_hash = {
 		%Q(Svolgi le normali attivita' quotidiane?) => ["Mai o raramente","Qualche volta","Spesso"],
 		%Q(Partecipa ad attività culturali o di socializzazione (cinema, teatro, circoli ricreativi, associazioni, incontri di famiglia ecc.)?) => ["Mai o raramente","Qualche volta","Spesso"],
