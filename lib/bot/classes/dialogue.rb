@@ -127,7 +127,7 @@ class Dialogue
 
   def inform_no_questionnaires
     send_chat_action 'typing'
-    keyboard = Dialogue.custom_keyboard ['Devo compilare dei Questionari?']
+    keyboard = Dialogue.custom_keyboard ['Devo compilare dei questionari?']
     reply = "Non hai questionari da compilare oggi! Torna più tardi per ricontrollare."
     save_user_message reply
     @api.call('sendMessage', chat_id: @patient.telegram_id,
@@ -169,7 +169,7 @@ class Dialogue
   end
 
   def menu_button_text
-    'Ho da fare dei questionari?'
+    'Devo compilare dei questionari?'
   end
 
   def back_button_text
