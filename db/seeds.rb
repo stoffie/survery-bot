@@ -82,9 +82,9 @@ question_hash.each { |key, value|
 campaign = Campaign.create(questionnaire: questionnaire)
 campaign.invitations.create(patient: p)
 
-title = %Q(Impatto della matalttia sulla quotidianita')
+title = %Q(Impatto della matalttia sulla quotidianitá)
 question_hash = {
-		%Q(Svolgi le normali attivita' quotidiane?) => ["Mai o raramente","Qualche volta","Spesso"],
+		%Q(Svolgi le normali attivitá quotidiane?) => ["Mai o raramente","Qualche volta","Spesso"],
 		%Q(Partecipa ad attività culturali o di socializzazione (cinema, teatro, circoli ricreativi, associazioni, incontri di famiglia ecc.)?) => ["Mai o raramente","Qualche volta","Spesso"],
 		%Q(Ti capita di sentirsi solo?) => ["Mai o raramente","Qualche volta","Spesso"],
 		%Q(Pensa di aver perso interesse nei confronti del lavoro, delle attività di svago o del rapporto con gli altri?) => ["Mai o raramente","Qualche volta","Spesso"],
@@ -107,9 +107,9 @@ question_hash = {
 		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda il vino?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
 		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda la birra?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
 		%Q(Come valuti l'aderenza della tua dieta, per quanto riguarda i superalcolici?) => ["Scarsa", "Bassa","Moderata","Buona","Molto buona"],
-		%Q(Hai fatto almeno mezz'ora di attivita' fisica leggera?) => ["Si","No"],
-		%Q(Hai fatto almeno mezz'ora di attivita' fisica moderata?) => ["Si","No"],
-		%Q(Hai fatto almeno mezz'ora di attivita' fisica intensa?) => ["Si","No"],
+		%Q(Hai fatto almeno mezz'ora di attività fisica leggera?) => ["Si","No"],
+		%Q(Hai fatto almeno mezz'ora di attività fisica moderata?) => ["Si","No"],
+		%Q(Hai fatto almeno mezz'ora di attività fisica intensa?) => ["Si","No"],
 
 }
 
