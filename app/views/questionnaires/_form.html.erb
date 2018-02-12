@@ -1,22 +1,31 @@
-<%= form_with(model: questionnaire, local: true) do |form| %>
-  <% if questionnaire.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(questionnaire.errors.count, "error") %> prohibited this questionnaire from being saved:</h2>
+<%= form_for questionnaire do |form| %>
+    <% if questionnaire.errors.any? %>
+        <div id="error_explanation">
+          <h2>Gli <b>errori</b> che non hanno permesso di salvare il questionario:</h2>
 
-      <ul>
-      <% questionnaire.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% questionnaire.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :title, 'Titolo* (tutti i questionari devono avere titoli diversi)' %>
+      <%= form.text_field :title, id: :questionnaire_title, class: 'form-control', placeholder: 'Inserisci Titolo' %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :questionnaire_title %>
-  </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+
+    <small id="emailHelp" class="form-text text-muted">I campi segnati con * sono obbligatori!</small>
+    <br>
+
+    <div class="actions">
+      <% if questionnaire.new_record? %>
+          <%= form.submit 'Crea Questionnario', class: 'btn btn-success' %>
+      <% else %>
+          <%= form.submit 'Modifica Questionnario', class: 'btn btn-success' %>
+      <% end %>
+    </div>
 <% end %>

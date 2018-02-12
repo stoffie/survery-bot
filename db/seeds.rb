@@ -18,7 +18,7 @@ end
 1.times do
 	questionnaire = Questionnaire.create(title: 'Indagine sulla soddisfazione professionale')
 	1.times do
-		question = questionnaire.questions.create(text: 'Con quale frequenza ti è consentito di prendere decisioni indipendenti sul lavoro?')
+		question = questionnaire.questions.create(text: 'Con quale frequenza ti è consentito di prendere decisioni indipendenti sul lavoro?', q_type: 'multiple_choice')
 		question.options.create(text: 'Sempre')
 		question.options.create(text: 'Quasi sempre')
 		question.options.create(text: 'Molto spesso')
@@ -26,7 +26,7 @@ end
 		question.options.create(text: 'Quasi mai')
 		question.options.create(text: 'Mai')
 
-		question = questionnaire.questions.create(text: ' Quanto sono ripetitivi i compiti del tuo lavoro?')
+		question = questionnaire.questions.create(text: ' Quanto sono ripetitivi i compiti del tuo lavoro?', q_type: 'multiple_choice')
 		question.options.create(text: 'Molto')
 		question.options.create(text: 'Normale')
 		question.options.create(text: 'Molto Poco')
@@ -46,7 +46,7 @@ question_hash = {
 questionnaire = Questionnaire.create(title: title)
 
 question_hash.each { |key, value|
-	question = questionnaire.questions.create(text: key)
+	question = questionnaire.questions.create(text: key, q_type: 'multiple_choice')
 	value.each { |e|
 		question.options.create(text: e)
 	}
@@ -73,7 +73,7 @@ question_hash = {
 questionnaire = Questionnaire.create(title: title)
 
 question_hash.each { |key, value|
-	question = questionnaire.questions.create(text: key)
+	question = questionnaire.questions.create(text: key, q_type: 'multiple_choice')
 	value.each { |e|
 		question.options.create(text: e)
 	}
@@ -116,7 +116,7 @@ question_hash = {
 questionnaire = Questionnaire.create(title: title)
 
 question_hash.each { |key, value|
-	question = questionnaire.questions.create(text: key)
+	question = questionnaire.questions.create(text: key, q_type: 'multiple_choice')
 	value.each { |e|
 		question.options.create(text: e)
 	}
