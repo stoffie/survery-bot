@@ -169,7 +169,7 @@ class Dialogue
   end
 
   def menu_button_text
-    'Ho da fare dei questionari?'
+    'Ho da completare nuovi questionari?'
   end
 
   def back_button_text

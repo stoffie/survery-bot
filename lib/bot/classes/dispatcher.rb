@@ -38,7 +38,7 @@ class Dispatcher
 
   def manage_idle(text)
     case text
-      when 'Devo compilare dei questionari?'
+      when have_questionnaires
         @patient.start_questionnaires!
       else
         @patient.no_action!
@@ -76,5 +76,8 @@ class Dispatcher
     ['Dimmi di piu', 'ulteriori dettagli', 'dettagli', 'di piu', 'Ulteriori Dettagli']
   end
 
+  def have_questionnaires
+    'Ho da completare nuovi questionari?'
+  end
 
 end
