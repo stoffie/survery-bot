@@ -16,7 +16,11 @@
       <%= form.text_field :title, id: :questionnaire_title, class: 'form-control', placeholder: 'Inserisci Titolo' %>
     </div>
 
-
+    <div class="form-group">
+      <%= form.fields_for :questions do |builder| %>
+        <%= render 'question_fields', :f => builder %>
+      <% end %>
+    </div>
 
     <small id="emailHelp" class="form-text text-muted">I campi segnati con * sono obbligatori!</small>
     <br>
@@ -28,4 +32,5 @@
           <%= form.submit 'Modifica Questionnario', class: 'btn btn-success' %>
       <% end %>
     </div>
+    <%#= link_to_add_fields('Aggiungi Domanda', form, :questions) %>
 <% end %>

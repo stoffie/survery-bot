@@ -8,11 +8,18 @@ class QuestionnairesController < ApplicationController
 
   # GET /questionnaires/1
   def show
+    @questionnaire = Questionnaire.find(params[:id])
   end
 
   # GET /questionnaires/new
   def new
     @questionnaire = Questionnaire.new
+    3.times do
+      question = @questionnaire.questions.build
+      4.times do
+        question.options.build
+      end
+    end
   end
 
   # GET /questionnaires/1/edit
@@ -53,6 +60,6 @@ class QuestionnairesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def questionnaire_params
-      params.require(:questionnaire).permit(:title)
+      params.require(:questionnaire).permit!
     end
 end

@@ -3,6 +3,8 @@
 		<tr>
 			<th>Titolo</th>
 			<th></th>
+			<th></th>
+			<th></th>
 		</tr>
 	</thead>
 
@@ -14,6 +16,14 @@
 			</td>
 			<td>
 				<%= link_to "Mostra", questionnaire_path(questionnaire), class: "badge badge-primary" %>
+			</td>
+			<td>
+				<%= link_to "Modifica", edit_questionnaire_path(questionnaire), class: "badge badge-success" %>
+			</td>
+			<td>
+				<%= link_to "Elimina", questionnaire_path(questionnaire), class: "badge badge-danger", method: :delete,
+										data: {confirm: "Sei sicuro di voler eliminare il Questionario #{questionnaire.title}?" +
+														"Una volta cancellato non potrai più ripristinarlo!"}%>
 			</td>
 		</tr>
 		<% end %>
