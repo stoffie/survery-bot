@@ -14,12 +14,7 @@ class QuestionnairesController < ApplicationController
   # GET /questionnaires/new
   def new
     @questionnaire = Questionnaire.new
-    3.times do
-      question = @questionnaire.questions.build
-      4.times do
-        question.options.build
-      end
-    end
+
   end
 
   # GET /questionnaires/1/edit

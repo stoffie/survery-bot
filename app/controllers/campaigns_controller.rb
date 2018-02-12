@@ -22,7 +22,7 @@ class CampaignsController < ApplicationController
 	# POST /campaigns
 	def create
 		@campaign = Campaign.new(campaign_params)
-		Patient.all.each do |p|
+		Patient.tagged_with(@campaign.tag_list).each do |p|
 			@campaign.invitations.new(patient: p)
 		end
 
@@ -56,6 +56,6 @@ class CampaignsController < ApplicationController
 
 	# Only allow a trusted parameter "white list" through.
 	def campaign_params
-		params.require(:campaign).permit(:title, :questionnaire_id)
+		params.require(:campaign).permit(:title, :questionnaire_id, :tag_list)
 	end
 end

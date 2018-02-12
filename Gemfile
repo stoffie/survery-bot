@@ -6,6 +6,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Nested Form Fields
+gem 'nested_form_fields'
+
 # Shim to load environment variables from .env into ENV in development.
 gem 'dotenv-rails', groups: [:development, :test]
 # Awesome Print
@@ -47,7 +50,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Act As Taggable
-gem 'acts-as-taggable-on', '~> 4.0'
+gem 'acts-as-taggable-on', '~> 5.0'
 
 
 # Use postgresql as the database for Active Record

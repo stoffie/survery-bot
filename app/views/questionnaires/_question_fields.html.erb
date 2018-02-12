@@ -1,9 +1,0 @@
-<div class="fields-for form-group">
-  <%= f.label :text, 'Testo Domanda*' %><br>
-  <%= f.text_area :text, :rows => 3 %>
-  <%= link_to_remove_fields('Cancella Domanda', f) %>
-  <%= f.fields_for :options do |builder| %>
-      <%= render 'option_fields', :f => builder %>
-      <%#= link_to_add_fields('Aggiungi Domanda', builder, :options) %>
-  <% end %>
-</div>

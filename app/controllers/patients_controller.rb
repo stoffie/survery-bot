@@ -24,7 +24,7 @@ class PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
 
     if @patient.save
-      redirect_to edit_patient_path(@patient), notice: 'Record creato con successo.'
+      redirect_to patients_path, notice: 'Record creato con successo.'
     else
       render :new
     end

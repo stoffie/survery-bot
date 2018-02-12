@@ -12,11 +12,23 @@
 	<% end %>
 
 	<div class="form-group">
-		<label>Tipologia indagine</label>
-		<select class="form-control" id="exampleFormControlSelect1" disabled>
-			<option>Indagine globale con singolo questionario</option>
-		</select>
-	</div>
+    <div class="alert alert-success" role="alert">
+      Quando crei una campagna, devi scegliere i TAG alla quale vuoi che sia inviata.
+    </div>
+    <ul class="list-group" style="clear: both; display: block; content: '';">
+      <% if ActsAsTaggableOn::Tag.count == 0 %>
+          <li class="list-group-item list-group-item-success" >Non sono ancora presenti TAG nel sistema. Inizia ad inserirne con questo nuovo paziente.</li>
+      <% else %>
+          <% ActsAsTaggableOn::Tag.all.each do |tag| %>
+              <li class="list-group-item list-group-item-success" style="float: left; margin-right: 7px; margin-bottom: 7px;"><%= tag.name %></li>
+          <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_field :tag_list, class: 'form-control', placeholder: 'Inserisci qui i TAG separati da virgola', value: campaign.tag_list.to_s %>
+  </div>
 
 	<div class="form-group">
 		<label>Questionario</label>
